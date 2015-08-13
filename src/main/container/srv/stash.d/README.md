@@ -1,0 +1,1 @@
+Scripts under this directory hierarchy will be executed in lexical order by [`/srv/stash.sh`](../stash.sh).

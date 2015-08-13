@@ -41,6 +41,7 @@ RUN set -x \
         openssh-client \
         perl \
         wget \
+        xmlstarlet \
 ### Patch the ca-certificates-java script to use our Java
  && sed -i -e 's/java-6-sun/java-${JAVA_VERSION}-oracle/g' /etc/ca-certificates/update.d/jks-keystore \
  && update-ca-certificates \
@@ -60,6 +61,11 @@ RUN set -x \
  && apt-get clean \
  && rm -rf /tmp/* /var/tmp/* /var/cache/oracle-* /var/lib/apt/lists/*
 
+COPY src/main/container/srv/ /srv/
+### Not a fan of the extra layer but I am very much a fan of docker build caching many megabytes of lower layers
+RUN set -x \
+ && find /srv/ -name "*.sh" | xargs chmod -v +x
+
 USER ${STASH_USER}:${STASH_GROUP}
 
 VOLUME ["${STASH_HOME}"]
@@ -69,5 +75,5 @@ EXPOSE 7990 7999
 
 WORKDIR ${STASH_INSTALL}
 
-# Run in foreground
-CMD ["./bin/start-stash.sh", "-fg"]
+ENTRYPOINT ["/srv/stash.sh"]
+CMD ["stash"]

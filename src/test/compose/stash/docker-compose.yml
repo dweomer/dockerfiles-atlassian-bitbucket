@@ -1,0 +1,32 @@
+# docker-compose --project-name stash
+
+webserver:
+  domainname: example.com
+  hostname: stash
+  image: nginx:1.9
+  links:
+    - appserver:appserver
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf
+# run ../../scripts/mk-self-signed-cert.sh to create a self-signed cert for stash.example.com
+    - ./server.key:/etc/ssl/private/server.key
+    - ./server.crt:/etc/ssl/private/server.crt
+
+appserver:
+  environment:
+    STASH_CONNECTOR_PROXY_NAME: stash.example.com
+  hostname: stash
+  image: dweomer/atlassian-stash
+  links:
+    - database:database
+  ports:
+    - 7999:7999
+
+database:
+  image: postgres:9.4
+  environment:
+    POSTGRES_USER: stash
+    POSTGRES_PASSWORD: stash
