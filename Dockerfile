@@ -11,7 +11,7 @@ ENV STASH_HOME=/var/lib/stash \
 #
     JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     JAVA_VERSION=8 \
-    JAVA_UPDATE=51
+    JAVA_UPDATE=60
 
 RUN set -x \
  && export DEBIAN_FRONTEND=noninteractive \
