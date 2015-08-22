@@ -45,6 +45,9 @@ RUN set -x \
 ### Patch the ca-certificates-java script to use our Java
  && sed -i -e 's/java-6-sun/java-${JAVA_VERSION}-oracle/g' /etc/ca-certificates/update.d/jks-keystore \
  && update-ca-certificates \
+### Modify the JDK installation to use our local cacerts
+ && mv -v ${JAVA_HOME}/jre/lib/security/cacerts ${JAVA_HOME}/jre/lib/security/cacerts.original \
+ && ln -vs /etc/ssl/certs/java/cacerts ${JAVA_HOME}/jre/lib/security/ \
 ### Let the JVM find the Tomcat Native and APR shared objects
  && ln -sv /usr/lib/x86_64-linux-gnu /usr/lib64 \
 ### Install Stash
