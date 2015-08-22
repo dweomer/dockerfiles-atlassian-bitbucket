@@ -42,6 +42,8 @@ RUN set -x \
         perl \
         wget \
         xmlstarlet \
+### Add setuid/setgid to update-ca-certificates script so that we can avoid installing gosu
+ && chmod -v ug+s $(which update-ca-certificates) \
 ### Patch the ca-certificates-java script to use our Java
  && sed -i -e 's/java-6-sun/java-${JAVA_VERSION}-oracle/g' /etc/ca-certificates/update.d/jks-keystore \
  && update-ca-certificates \
