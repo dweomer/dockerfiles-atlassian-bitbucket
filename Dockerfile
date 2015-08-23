@@ -59,15 +59,20 @@ RUN set -x \
  && echo "stash.home=${STASH_HOME}" > ${STASH_INSTALL}/atlassian-stash/WEB-INF/classes/stash-application.properties \
  && chmod -R 700 ${STASH_INSTALL} ${STASH_HOME} \
  && chown -R ${STASH_USER}:${STASH_GROUP} \
-    ${STASH_HOME} \
-    ${STASH_INSTALL} \
-    /etc/default/cacerts \
-    /etc/java-${JAVA_VERSION}-oracle \
-    /etc/ssl \
+        ${STASH_HOME} \
+        ${STASH_INSTALL} \
+        /etc/default/cacerts \
+        /etc/java-${JAVA_VERSION}-oracle \
+        /etc/ssl \
  && find ${STASH_INSTALL} -name "*.sh" | xargs chmod -v +x \
 ### Cleanup
  && apt-get clean \
- && rm -rf /etc/java-6-sun /tmp/* /var/tmp/* /var/cache/oracle-* /var/lib/apt/lists/*
+ && rm -rf \
+        /etc/java-6-sun \
+        /tmp/* \
+        /var/tmp/* \
+        /var/cache/oracle-* \
+        /var/lib/apt/lists/*
 
 COPY src/main/container/srv/ /srv/
 ### Not a fan of the extra layer but I am very much a fan of docker build caching many megabytes of lower layers
