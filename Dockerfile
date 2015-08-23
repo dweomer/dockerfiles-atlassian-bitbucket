@@ -42,8 +42,6 @@ RUN set -x \
         perl \
         wget \
         xmlstarlet \
-### Add setuid/setgid to update-ca-certificates script so that we can avoid installing gosu
- && chmod -v ug+s $(which update-ca-certificates) \
 ### Patch the ca-certificates-java script to use our Java
  && sed -i -e 's/java-6-sun/java-${JAVA_VERSION}-oracle/g' /etc/ca-certificates/update.d/jks-keystore \
  && update-ca-certificates \
@@ -53,18 +51,18 @@ RUN set -x \
 ### Let the JVM find the Tomcat Native and APR shared objects
  && ln -sv /usr/lib/x86_64-linux-gnu /usr/lib64 \
 ### Install Stash
- && mkdir -p ${STASH_INSTALL} ${STASH_HOME} \
+ && mkdir -p ${STASH_INSTALL} ${STASH_HOME} /etc/java-${JAVA_VERSION}-oracle \
  && groupadd -g ${STASH_GID} ${STASH_GROUP} \
  && useradd -d ${STASH_INSTALL} -u ${STASH_UID} -g ${STASH_GID} -c "Atlassian Stash" ${STASH_USER} \
  && wget --progress=dot:mega -O- "https://www.atlassian.com/software/stash/downloads/binary/atlassian-stash-${STASH_VERSION}.tar.gz" | tar -xz --strip=1 -C "${STASH_INSTALL}" \
  && echo "STASH_USER=\"${STASH_USER}\";export STASH_USER" > ${STASH_INSTALL}/bin/user.sh \
  && echo "stash.home=${STASH_HOME}" > ${STASH_INSTALL}/atlassian-stash/WEB-INF/classes/stash-application.properties \
  && chmod -R 700 ${STASH_INSTALL} ${STASH_HOME} \
- && chown -R ${STASH_USER}:${STASH_GROUP} ${STASH_INSTALL} ${STASH_HOME} \
+ && chown -R ${STASH_USER}:${STASH_GROUP} ${STASH_INSTALL} ${STASH_HOME} /etc/ssl /etc/default/cacerts /etc/java-${JAVA_VERSION}-oracle \
  && find ${STASH_INSTALL} -name "*.sh" | xargs chmod -v +x \
 ### Cleanup
  && apt-get clean \
- && rm -rf /tmp/* /var/tmp/* /var/cache/oracle-* /var/lib/apt/lists/*
+ && rm -rf /etc/java-6-sun /tmp/* /var/tmp/* /var/cache/oracle-* /var/lib/apt/lists/*
 
 COPY src/main/container/srv/ /srv/
 ### Not a fan of the extra layer but I am very much a fan of docker build caching many megabytes of lower layers
