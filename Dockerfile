@@ -7,7 +7,7 @@ ENV STASH_HOME=/var/lib/stash \
     STASH_USER=stash \
     STASH_GID=7999 \
     STASH_GROUP=stash \
-    STASH_VERSION=3.11.1 \
+    STASH_VERSION=3.11.2 \
 #
     JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     JAVA_VERSION=8 \
@@ -58,7 +58,12 @@ RUN set -x \
  && echo "STASH_USER=\"${STASH_USER}\";export STASH_USER" > ${STASH_INSTALL}/bin/user.sh \
  && echo "stash.home=${STASH_HOME}" > ${STASH_INSTALL}/atlassian-stash/WEB-INF/classes/stash-application.properties \
  && chmod -R 700 ${STASH_INSTALL} ${STASH_HOME} \
- && chown -R ${STASH_USER}:${STASH_GROUP} ${STASH_INSTALL} ${STASH_HOME} /etc/ssl /etc/default/cacerts /etc/java-${JAVA_VERSION}-oracle \
+ && chown -R ${STASH_USER}:${STASH_GROUP} \
+    ${STASH_HOME} \
+    ${STASH_INSTALL} \
+    /etc/default/cacerts \
+    /etc/java-${JAVA_VERSION}-oracle \
+    /etc/ssl \
  && find ${STASH_INSTALL} -name "*.sh" | xargs chmod -v +x \
 ### Cleanup
  && apt-get clean \
