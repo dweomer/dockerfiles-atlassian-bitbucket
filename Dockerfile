@@ -7,7 +7,7 @@ ENV BITBUCKET_HOME=/var/lib/bitbucket \
     BITBUCKET_USER=bitbucket \
     BITBUCKET_GID=7999 \
     BITBUCKET_GROUP=bitbucket \
-    BITBUCKET_VERSION=4.2.3 \
+    BITBUCKET_VERSION=4.4.0 \
 #
     GOSU_VERSION=1.7 \
 #
