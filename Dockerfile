@@ -7,13 +7,13 @@ ENV BITBUCKET_HOME=/var/lib/bitbucket \
     BITBUCKET_USER=bitbucket \
     BITBUCKET_GID=7999 \
     BITBUCKET_GROUP=bitbucket \
-    BITBUCKET_VERSION=4.2.0 \
+    BITBUCKET_VERSION=4.2.3 \
 #
     GOSU_VERSION=1.7 \
 #
     JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     JAVA_VERSION=8 \
-    JAVA_UPDATE=66
+    JAVA_UPDATE=74
 
 RUN set -x \
  && export DEBIAN_FRONTEND=noninteractive \
