@@ -7,13 +7,12 @@ ENV BITBUCKET_HOME=/var/lib/bitbucket \
     BITBUCKET_USER=bitbucket \
     BITBUCKET_GID=7999 \
     BITBUCKET_GROUP=bitbucket \
-    BITBUCKET_VERSION=4.4.0 \
+    BITBUCKET_VERSION=4.11.1 \
 #
     GOSU_VERSION=1.7 \
 #
     JAVA_HOME=/usr/lib/jvm/java-8-oracle \
-    JAVA_VERSION=8 \
-    JAVA_UPDATE=74
+    JAVA_VERSION=8
 
 RUN set -x \
  && export DEBIAN_FRONTEND=noninteractive \
@@ -30,9 +29,9 @@ RUN set -x \
  && apt-get update \
 ### Install Oracle JDK, making it the default JVM
  && apt-get --assume-yes --no-install-recommends install \
-        oracle-java${JAVA_VERSION}-installer=${JAVA_VERSION}u${JAVA_UPDATE}* \
-        oracle-java${JAVA_VERSION}-unlimited-jce-policy=${JAVA_VERSION}u${JAVA_UPDATE}* \
-        oracle-java${JAVA_VERSION}-set-default=${JAVA_VERSION}u${JAVA_UPDATE}* \
+        oracle-java${JAVA_VERSION}-installer=${JAVA_VERSION}* \
+        oracle-java${JAVA_VERSION}-unlimited-jce-policy=${JAVA_VERSION}* \
+        oracle-java${JAVA_VERSION}-set-default=${JAVA_VERSION}* \
 ### Install the Tomcat Native and APR shared objects
         libapr1 \
         libaprutil1 \
