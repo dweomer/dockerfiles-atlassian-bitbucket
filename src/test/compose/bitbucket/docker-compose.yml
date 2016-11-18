@@ -3,7 +3,7 @@
 web:
   domainname: example.com
   hostname: bitbucket
-  image: nginx:1.9
+  image: nginx:1
   links:
     - app:app
   ports:
@@ -31,7 +31,7 @@ app:
     - ./bitbucket.properties:/var/lib/bitbucket/shared/bitbucket.properties:ro
 
 db:
-  image: postgres:9
+  image: postgres:9.5
   environment:
     POSTGRES_USER: bitbucket
     POSTGRES_PASSWORD: bitbucket
