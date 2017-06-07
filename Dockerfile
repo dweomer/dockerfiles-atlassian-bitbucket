@@ -1,5 +1,5 @@
 # vim:set ft=dockerfile:
-FROM debian:jessie
+FROM ubuntu:zesty
 
 ENV BITBUCKET_HOME=/var/lib/bitbucket \
     BITBUCKET_INSTALL=/opt/atlassian/bitbucket \
@@ -20,9 +20,11 @@ RUN set -x \
  && apt-get update \
  && apt-get --assume-yes --no-install-recommends install \
         ca-certificates \
+        dirmngr \
+        gnupg \
 ### Add the Oracle JDK repo and pre-acknowledge the licenses
  && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 7B2C3B0889BF5709A105D03AC2518248EEA14886 \
- && echo deb http://ppa.launchpad.net/webupd8team/java/ubuntu vivid main > /etc/apt/sources.list.d/webupd8team-java-ubuntu-vivid.list \
+ && echo deb http://ppa.launchpad.net/webupd8team/java/ubuntu zesty main > /etc/apt/sources.list.d/webupd8team-java-ubuntu-zesty.list \
  && echo oracle-java${JAVA_VERSION}-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
  && echo oracle-java${JAVA_VERSION}-unlimited-jce-policy shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
 ### Get an updated list of packages that can be installed/upgraded which will now include the Oracle JDKs
