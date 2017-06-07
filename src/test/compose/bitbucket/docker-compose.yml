@@ -36,7 +36,7 @@ services:
       - ./bitbucket.properties:/var/lib/bitbucket/shared/bitbucket.properties:ro
 
   db:
-    image: postgres:9.5
+    image: postgres:9.4
     environment:
       POSTGRES_USER: bitbucket
       POSTGRES_PASSWORD: bitbucket
