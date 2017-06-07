@@ -23,25 +23,43 @@ services:
     build:
       context: ../../../..
     environment:
-      BITBUCKET_CONNECTOR_PROXY_NAME: bitbucket.example.com
+      CATALINA_CONNECTOR_PROXYNAME: "bitbucket.example.com"
+      CATALINA_CONNECTOR_PROXYPORT: "443"
+      CATALINA_CONNECTOR_SCHEME: "https"
+      CATALINA_CONNECTOR_SECURE: "true"
     domainname: example.com
     hostname: bitbucket
-    image: dweomer/atlassian-bitbucket
+    image: atlassian/bitbucket-server:4.2
+    depends_on:
+      - home
     links:
       - db:db
     ports:
       - 7999:7999
     volumes:
-      - home:/var/lib/bitbucket
-      - ./bitbucket.properties:/var/lib/bitbucket/shared/bitbucket.properties:ro
+      - home:/var/atlassian/application-data/bitbucket
+      - ./bitbucket.properties:/var/atlassian/application-data/bitbucket/shared/bitbucket.properties:ro
 
   db:
-    image: postgres:9.5
+    image: postgres:9.4
     environment:
       POSTGRES_USER: bitbucket
       POSTGRES_PASSWORD: bitbucket
     volumes:
       - data:/var/lib/postgresql/data
+
+  home:
+    image: atlassian/bitbucket-server:4.2
+    command: |
+      /bin/sh -c '/bin/sh -s << EOF
+        mkdir -vp $$BITBUCKET_HOME/shared
+        chown -v $$RUN_USER:$$RUN_GROUP $$BITBUCKET_HOME
+        chown -v $$RUN_USER:$$RUN_GROUP $$BITBUCKET_HOME/shared
+      EOF
+      '
+    user: "root:root"
+    volumes:
+      - home:/var/atlassian/application-data/bitbucket
 
   pki:
     image: alpine
