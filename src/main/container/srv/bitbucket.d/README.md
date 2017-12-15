@@ -1,1 +1,0 @@
-Scripts under this directory hierarchy will be executed in lexical order by [`/srv/bitbucket.sh`](../bitbucket.sh).
